@@ -9,11 +9,11 @@ class FCM{
     public function pushNotification($to, $data = array(), $ttl=60) {
         $data = json_encode(array("to" => $to, "data" => $data, "time_to_live"=> $ttl));
         //FCM API end-point
-        $url = 'https://fcm.googleapis.com/fcm/send';
+        $url = 'https://fcm.googleapis.com/fcm/send?format=json';
         //header with content_type api key
         $headers = array(
-            'Content-Type:application/json',
-            'Authorization:key='.FCM_SERVER_KEY
+            'Content-Type: application/json',
+            'Authorization:key=' . FCM_SERVER_KEY
         );
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -23,8 +23,13 @@ class FCM{
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $result = curl_exec($ch);
         curl_close($ch);
+        if ($httpcode != 200) {
+            echo "ERROR: \n" . $result . "\n";
+            exit;
+        }
     }
 
 
