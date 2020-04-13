@@ -6,9 +6,13 @@
 
 class FCM{
 
-    public function pushNotification($to, $data = [], $ttl = 60)
+    public function pushNotification($to, $data = null, $ttl = 60)
     {
-        $data = json_encode(array("to" => $to, "data" => $data, "time_to_live" => $ttl));
+        if ($data != null)
+            $data = json_encode(array("to" => $to, "data" => $data, "time_to_live" => $ttl));
+        else
+            $data = json_encode(array("to" => $to, "time_to_live" => $ttl));
+
         //FCM API end-point
         $url = 'https://fcm.googleapis.com/fcm/send';
         //header with content_type api key
@@ -24,9 +28,17 @@ class FCM{
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $result = curl_exec($ch);
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        if (DEBUG) {
+            echo "FCM Succeeded with code " . $httpcode . "\n";
+            $json = json_decode($result, true);
+            if (is_array($json))
+                echo "Message ID: " . $json['message_id'] . "\n";
+            else
+                echo $result;
+        }
         if ($httpcode != 200) {
             echo "ERROR: \n" . $result . "\n";
             exit;

@@ -5,7 +5,7 @@
  */
 
 
-// Add your FCM Server key. You can find it in Firebase control panel (Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key)
+// TODO Add your FCM Server key. You can find it in Firebase control panel (Firebase Console -> Project Settings -> CLOUD MESSAGING -> Server key)
 define("FCM_SERVER_KEY", "YOUR_KEY");
 
-define("DEBUG", false);
+define("DEBUG", true);
