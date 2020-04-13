@@ -6,8 +6,9 @@
 
 class FCM{
 
-    public function pushNotification($to, $data = array(), $ttl=60) {
-        $data = json_encode(array("to" => $to, "data" => $data, "time_to_live"=> $ttl));
+    public function pushNotification($to, $data = [], $ttl = 60)
+    {
+        $data = json_encode(array("to" => $to, "data" => $data, "time_to_live" => $ttl));
         //FCM API end-point
         $url = 'https://fcm.googleapis.com/fcm/send';
         //header with content_type api key
