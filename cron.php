@@ -4,8 +4,8 @@
  * @author developerfromjokela
  */
 
-require "config/config.php";
-require "lib/fcm.php";
+require __DIR__."/config/config.php";
+require __DIR__."/lib/fcm.php";
 /**
  * This script is supposed to run in cron, and send push messages when it will be ran.
  */
